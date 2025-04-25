@@ -1,0 +1,5 @@
+rootUser: admin
+rootPassword: supersecure
+mode: standalone
+persistence:
+  enabled: true

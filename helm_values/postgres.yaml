@@ -1,0 +1,5 @@
+auth:
+  postgresPassword: supersecure
+primary:
+  persistence:
+    enabled: true
