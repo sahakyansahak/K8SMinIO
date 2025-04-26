@@ -1,9 +1,15 @@
-resource "helm_release" "postgres" {
+resource "helm_release" "postgresql" {
   provider = helm.vm1
-  name     = "postgres"
-  chart    = "bitnami/postgresql"
-  repository = "https://charts.bitnami.com/bitnami"
-  namespace = "default"
 
-  values = [file("${path.module}/../helm_values/postgres.yaml")]
+  name       = "postgresql"
+  namespace  = "db"
+  create_namespace = true
+
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "postgresql"
+  version    = "16.0.0"
+
+  values = [
+    file("../helm_values/postgres.yaml")
+  ]
 }

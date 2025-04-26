@@ -1,8 +1,8 @@
-resource "kubernetes_cron_job_v1" "demo" {
-    provider = kubernetes.vm1
+resource "kubernetes_cron_job_v1" "mirror" {
+    provider = kubernetes.vm2
   metadata {
-    name = "demo"
-    namespace = "db"
+    name = "mirror"
+    namespace = "storage"
   }
   spec {
     concurrency_policy            = "Replace"
@@ -12,7 +12,7 @@ resource "kubernetes_cron_job_v1" "demo" {
     successful_jobs_history_limit = 10
     job_template {
       metadata {
-        namespace = "db"
+        namespace = "storage"
       }
       spec {
         backoff_limit              = 2
@@ -23,20 +23,20 @@ resource "kubernetes_cron_job_v1" "demo" {
           }
           spec {
             container {
-              name    = "backup"
+              name    = "mirror"
               image   = "ubuntu:latest"
-              command = ["/bin/bash", "-c", "sh /scripts/backup.sh"]
+              command = ["/bin/bash", "-c", "sh /scripts/mirror.sh"]
 
               volume_mount {
-                name       = "backup-script"
+                name       = "mirror-script"
                 mount_path = "/scripts"
               }
             }
             volume {
-              name = "backup-script"  # Same name as volume_mount
+              name = "mirror-script"  # Same name as volume_mount
 
               config_map {
-                name = kubernetes_config_map.backup_script.metadata[0].name
+                name = kubernetes_config_map.mirror_script.metadata[0].name
               }
           }
         }
