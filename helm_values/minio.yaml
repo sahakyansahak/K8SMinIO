@@ -1,5 +1,6 @@
-rootUser: admin
-rootPassword: supersecure
+auth:  
+  rootUser: admin
+  rootPassword: supersecure
 mode: standalone
 persistence:
   enabled: true
